@@ -53,9 +53,20 @@ public class StdReferencingObjectMap implements ReferencingObjectMap {
 		this.joinConditions.addAll(joinConditions);
 	}
 
+	private String removeSemicolon(String str) {
+// Removes semicolon at the end of SQL expressions
+		if (str != null && str.trim().length() > 0 ){
+			str = str.trim();
+			if (str.charAt(str.length() - 1) == ';') {
+				str = str.substring(0, str.length() - 1);
+			}
+		}
+		return str;
+	}
+
 	public String getChildQuery() {
-		return predicateObjectMap.getOwnTriplesMap().getLogicalTable()
-				.getEffectiveSQLQuery();
+		return removeSemicolon(predicateObjectMap.getOwnTriplesMap().getLogicalTable()
+				.getEffectiveSQLQuery());
 	}
 
 	public Set<JoinCondition> getJoinConditions() {
@@ -86,7 +97,7 @@ public class StdReferencingObjectMap implements ReferencingObjectMap {
 	}
 
 	public String getParentQuery() {
-		return parentTriplesMap.getLogicalTable().getEffectiveSQLQuery();
+		return removeSemicolon(parentTriplesMap.getLogicalTable().getEffectiveSQLQuery());
 	}
 
 	public TriplesMap getParentTriplesMap() {
