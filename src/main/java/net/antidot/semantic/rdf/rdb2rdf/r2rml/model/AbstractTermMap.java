@@ -435,9 +435,10 @@ public abstract class AbstractTermMap implements TermMap {
 				result = XSDLexicalTransformation.extractNaturalRDFFormFrom(
 						xsdType, bytesResult);
 			}
-			else
-			{
+			else if (bytesResult != null){
 			    result = new String(bytesResult, "UTF-8");
+			} else {
+				result = null;
 			}
 			return result;
 
