@@ -1,6 +1,10 @@
 This DB2Triples modification (a) support Oracle Databases and (b) implements the language column feature.
 
-The language column feature adds the property **rr:languageColumn** to the [R2RML language](https://www.w3.org/TR/r2rml/). This property was first created by [Vladimir Alexiev](https://ontotext.com/author/vladimir/) in his [Perl implementation](https://metacpan.org/pod/RDF::RDB2RDF::R2RML#Language). Although the property was using other namespace, I maintained the R2RML namespace in db2triples.
+The language column feature adds the property **rrx:languageColumn** to the [R2RML language](https://www.w3.org/TR/r2rml/). This property was first created by [Vladimir Alexiev](https://ontotext.com/author/vladimir/) in his [Perl implementation](https://metacpan.org/pod/RDF::RDB2RDF::R2RML#Language). The namespace rrx of the property is <http://purl.org/r2rml-ext/>, so to use it you only need to add
+
+```@prefix rrx: <http://purl.org/r2rml-ext/>.```
+
+at the beginning of your R2RML file.
 
 [H2 Database support](https://github.com/gesteban/db2triples/commit/3d3b20cc7210ea2e24cdde2c74f85b67a4d91abf) by @santteegt (https://santteegt.github.io/)
 

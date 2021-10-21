@@ -544,7 +544,7 @@ public abstract class R2RMLMappingFactory {
 				object, R2RMLTerm.COLUMN);
 		ColumnIdentifier columnValue= ColumnIdentifierImpl.buildFromR2RMLConfigFile(columnValueStr);
 		String languageColumnValueStr = extractLiteralFromTermMap(r2rmlMappingGraph,
-				object, R2RMLTerm.LANGUAGE_COLUMN);
+				object, R2RMLVocabulary.R2RMLEXT_NAMESPACE, R2RMLTerm.LANGUAGE_COLUMN);
 		ColumnIdentifier languageColumnValue= ColumnIdentifierImpl.buildFromR2RMLConfigFile(languageColumnValueStr);
 		StdObjectMap result = new StdObjectMap(null, constantValue, dataType,
 				languageTag, stringTemplate, termType, inverseExpression,
@@ -705,6 +705,31 @@ public abstract class R2RMLMappingFactory {
 		if (log.isDebugEnabled())
 			log.debug("[R2RMLMappingFactory:extractLiteralFromTermMap] Extracted "
 					+ term + " : " + result);
+		return result;
+	}
+
+	/**
+	 * Extract content literal from a term type resource.
+	 *
+	 * @param r2rmlMappingGraph
+	 * @param termType
+	 * @param namespace
+	 * @param term
+	 * @return
+	 * @throws InvalidR2RMLStructureException
+	 */
+	private static String extractLiteralFromTermMap(
+			SesameDataSet r2rmlMappingGraph, Resource termType, String namespace, R2RMLTerm term)
+			throws InvalidR2RMLStructureException {
+		IRI p = r2rmlMappingGraph.URIref(namespace + term);
+		List<Statement> statements = r2rmlMappingGraph.tuplePattern(termType, p, null);
+		if (statements.isEmpty())
+			return null;
+		if (statements.size() > 1)
+			throw new InvalidR2RMLStructureException("[R2RMLMappingFactory:extractValueFromTermMap] " + termType + " has too many " + term + " predicate defined.");
+		String result = statements.get(0).getObject().stringValue();
+		if (log.isDebugEnabled())
+			log.debug("[R2RMLMappingFactory:extractLiteralFromTermMap] Extracted " + term + " : " + result);
 		return result;
 	}
 

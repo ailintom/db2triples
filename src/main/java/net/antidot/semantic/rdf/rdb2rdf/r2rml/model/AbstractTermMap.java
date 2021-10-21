@@ -469,6 +469,9 @@ public abstract class AbstractTermMap implements TermMap {
 		byte[] bytesResult = dbValues.get(languageColumnValue);
 			/* Extract the SQLType in dbValues from the key which is
 			 * equals to "columnValue" */
+		if (bytesResult == null) {
+			return null;
+		}
 		SQLType sqlType = null;
 		for(ColumnIdentifier colId : dbValues.keySet()) {
 			if(colId.equals(columnValue)) {

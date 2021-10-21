@@ -40,6 +40,7 @@ public class R2RMLVocabulary {
 	public static String RDFS_NAMESPACE = "http://www.w3.org/2000/01/rdf-schema#";
 	public static String XSD_NAMESPACE = "http://www.w3.org/2001/XMLSchema#";
 	public static String EX_NAMESPACE = "http://example.com/ns#"; // By convention
+	public static String R2RMLEXT_NAMESPACE = "http://purl.org/r2rml-ext/";
 	
 	public enum R2RMLTerm {
 		// CLASSES

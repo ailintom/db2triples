@@ -663,7 +663,7 @@ public class R2RMLEngine {
 			Map<ColumnIdentifier, byte[]> omFromRow = applyValueToRow(om);
 			boolean nullFound = false;
 			for (ColumnIdentifier value : omFromRow.keySet())
-				if (omFromRow.get(value) == null) {
+				if (!value.equals(om.getLanguageColumnValue()) && omFromRow.get(value) == null) {
 					log.debug("[R2RMLEngine:genereateRDFTriplesFromRow] NULL found, this object will be ignored.");
 					nullFound = true;
 					break;
@@ -842,8 +842,12 @@ public class R2RMLEngine {
 		// literal
 		// with that language tag and with the natural RDF lexical form
 		// corresponding to value.
-		if (languageValue != null && RDFDataValidator.isValidLanguageTag(languageValue)) {
-			return vf.createLiteral(value, languageValue);
+		if (languageValue != null) {
+			if (RDFDataValidator.isValidLanguageTag(languageValue)) {
+				return vf.createLiteral(value, languageValue);
+			} else {
+				throw new R2RMLDataError("[R2RMLEngine:generateLiteralTermType] Not a valid language tag : " + languageValue);
+			}
 		} else if (termMap.getLanguageTag() != null) {
 			if (!RDFDataValidator.isValidLanguageTag(termMap.getLanguageTag()))
 				throw new R2RMLDataError(
